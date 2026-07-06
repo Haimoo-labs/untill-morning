@@ -58,6 +58,25 @@ Before implementing gameplay, read:
 - `docs/build-plan.md`
 - `docs/game-design-blueprint.md`
 
+## Governance and standards
+
+This repository uses a lightweight governance model for documentation, versioning, change control, and incident management.
+
+Read:
+
+- `docs/governance/GOVERNANCE.md`
+- `docs/governance/DOCUMENTATION-STANDARD.md`
+- `docs/governance/VERSIONING.md`
+- `docs/governance/CHANGE-CONTROL.md`
+- `docs/governance/INCIDENT-MANAGEMENT.md`
+
+Reusable templates:
+
+- `docs/templates/CHANGE-REPORT.md`
+- `docs/templates/INCIDENT-REPORT.md`
+- `docs/templates/RELEASE-NOTES.md`
+- `docs/templates/ADR-TEMPLATE.md`
+
 ## Repository status
 
 This repository currently contains the project foundation only. Gameplay implementation should start from a separate feature branch.
