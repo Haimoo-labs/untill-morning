@@ -58,6 +58,29 @@ Before implementing gameplay, read:
 - `docs/build-plan.md`
 - `docs/game-design-blueprint.md`
 
+## Prototype v0.1 planning docs
+
+Read these before implementing the first playable loop:
+
+- `docs/prototype-v0.1/IMPLEMENTATION-BLUEPRINT.md`
+- `docs/prototype-v0.1/SCENE-FLOW.md`
+- `docs/prototype-v0.1/GAME-STATE-SPEC.md`
+- `docs/prototype-v0.1/BALANCE-TABLE.md`
+- `docs/prototype-v0.1/TEST-PLAN.md`
+- `docs/tasks/CLAUDE-CODE-TASKS-v0.1.md`
+
+Supporting product and quality docs:
+
+- `docs/quality/DEFINITION-OF-DONE.md`
+- `docs/product/BACKLOG.md`
+- `docs/product/FEATURE-PARKING-LOT.md`
+
+Architecture decisions:
+
+- `docs/decisions/ADR-001-engine-choice.md`
+- `docs/decisions/ADR-002-scene-architecture.md`
+- `docs/decisions/ADR-003-state-management.md`
+
 ## Governance and standards
 
 This repository uses a lightweight governance model for documentation, versioning, change control, and incident management.
@@ -79,4 +102,4 @@ Reusable templates:
 
 ## Repository status
 
-This repository currently contains the project foundation only. Gameplay implementation should start from a separate feature branch.
+This repository currently contains the project foundation and Prototype v0.1 planning package. Gameplay implementation should start from a separate feature branch.
