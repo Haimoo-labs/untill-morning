@@ -1,0 +1,33 @@
+; Engine configuration file.
+; It is best edited using the Godot editor UI.
+;
+; Format:
+;   [section]
+;   param=value
+
+config_version=5
+
+[application]
+
+config/name="Until Morning"
+config/description="Android-first 2D / 2.5D zombie survival defence prototype."
+run/main_scene="res://scenes/main/main.tscn"
+config/features=PackedStringArray("4.3")
+config/icon="res://assets/placeholders/icon.svg"
+
+[autoload]
+
+GameState="*res://scripts/core/game_state.gd"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/handheld/orientation=1
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
