@@ -1,0 +1,33 @@
+# Godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Godot imported assets
+*.import
+
+# Mono / C# artifacts, if ever enabled
+.mono/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build outputs
+builds/
+exports/
+dist/
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+.cache/
