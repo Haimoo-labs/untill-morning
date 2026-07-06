@@ -1,0 +1,63 @@
+# Until Morning
+
+**Until Morning** is an Android-first 2D / 2.5D zombie survival defence game.
+
+Core promise:
+
+> Loot by day. Build before dark. Survive until morning.
+
+The first goal is not to build the full game. The first goal is to build a small playable prototype that proves the core loop:
+
+1. Morning: check the base status and daily threat.
+2. Day: choose one expedition.
+3. Expedition: collect loot with limited capacity.
+4. Evening: repair or prepare before dark.
+5. Night: defend the base.
+6. Morning report: see what survived, what broke, and what happens next.
+
+## Current target
+
+**Prototype v0.1 — Survive 3 Nights**
+
+Included:
+
+- Godot 4 project skeleton
+- Documentation foundation
+- Claude Code working instructions
+- Minimal folder structure for scenes, scripts, assets, docs, and tests
+
+Excluded for now:
+
+- Infection
+- Weather
+- NPCs
+- Monetization
+- Ads
+- Save system
+- Multiple locations
+- Full campaign
+
+## Recommended local setup
+
+Use Godot 4.x.
+
+Open the project from:
+
+```text
+game/project.godot
+```
+
+## Working model
+
+Use `CLAUDE.md` as the primary instruction file for Claude Code.
+
+Before implementing gameplay, read:
+
+- `CLAUDE.md`
+- `docs/mvp-scope.md`
+- `docs/build-plan.md`
+- `docs/game-design-blueprint.md`
+
+## Repository status
+
+This repository currently contains the project foundation only. Gameplay implementation should start from a separate feature branch.
