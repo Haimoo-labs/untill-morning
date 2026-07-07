@@ -14,7 +14,7 @@ These values are not final. They exist so Claude Code does not invent gameplay n
 | Target days | 3 | Prototype completes after surviving Day 3 |
 | Food | 3 | Used as visible survival pressure only in v0.1 |
 | Wood | 3 | Used for gate repair |
-| Ammo | 6 | Used to reduce night damage |
+| Ammo | 4 | Used to reduce night damage |
 | Gate HP | 100 | Main lose condition |
 
 ## Gate repair
@@ -45,16 +45,16 @@ Use any simple random selection between these options.
 
 | Day | Incoming damage | Notes |
 |---:|---:|---|
-| 1 | 25 | Easy intro night |
-| 2 | 40 | Risk appears |
-| 3 | 60 | Can lose if poorly prepared |
+| 1 | 30 | Easy intro night |
+| 2 | 50 | Risk appears, first repair matters |
+| 3 | 80 | Lethal without repair; survivable with it |
 
 ## Ammo mitigation
 
 | Value | Amount | Notes |
 |---|---:|---|
 | Damage blocked per ammo | 10 | One ammo blocks 10 incoming damage |
-| Max ammo auto-used per night | 3 | Prevents all ammo from disappearing instantly |
+| Max ammo auto-used per night | 2 | Caps automatic mitigation at 20/night so raw damage and repair choice actually matter |
 | Minimum gate damage | 0 | Damage cannot go below zero |
 
 Recommended formula:

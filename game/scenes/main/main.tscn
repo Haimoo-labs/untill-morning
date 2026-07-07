@@ -23,23 +23,15 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="Content" type="VBoxContainer" parent="RootMargin"]
+[node name="Root" type="VBoxContainer" parent="RootMargin"]
 layout_mode = 2
-alignment = 1
+theme_override_constants/separation = 12
 
-[node name="TitleLabel" type="Label" parent="RootMargin/Content"]
+[node name="TitleLabel" type="Label" parent="RootMargin/Root"]
 layout_mode = 2
 text = "Until Morning"
 horizontal_alignment = 1
 
-[node name="StatusLabel" type="Label" parent="RootMargin/Content"]
+[node name="PhaseContainer" type="VBoxContainer" parent="RootMargin/Root"]
 layout_mode = 2
-text = "Project foundation ready. Gameplay loop is not implemented yet."
-autowrap_mode = 3
-horizontal_alignment = 1
-
-[node name="InstructionLabel" type="Label" parent="RootMargin/Content"]
-layout_mode = 2
-text = "Next Claude Code task: implement Prototype v0.1 core loop from docs/mvp-scope.md."
-autowrap_mode = 3
-horizontal_alignment = 1
+theme_override_constants/separation = 8

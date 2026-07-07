@@ -6,6 +6,8 @@ This backlog keeps the project focused.
 
 It separates what should be built now from what should wait until the core loop is proven.
 
+Commercial priority view (which v0.2–v0.6 items matter most for a revenue project, and gate criteria for Portti 1 / Portti 2): see `docs/business/PRODUCTIZATION-ROADMAP.md`. The tags below summarize that view; they do not change scope.
+
 ## Now — Prototype v0.1
 
 Goal:
@@ -36,6 +38,8 @@ Do not build:
 
 ## Next — Prototype v0.2
 
+Commercial priority: **High** — first depth multiplier on the core loop, feeds retention. Keep.
+
 Goal:
 
 Add infection pressure after the core loop is playable.
@@ -53,6 +57,8 @@ Success question:
 > Does infection create a meaningful choice without feeling unfair?
 
 ## Next — Prototype v0.3
+
+Commercial priority: **High** — agency and "care what you leave behind" drive replay value. Keep, ahead of weather.
 
 Goal:
 
@@ -72,6 +78,8 @@ Success question:
 
 ## Later — Prototype v0.4
 
+Commercial priority: **Medium** — variety, not a retention core. First candidate to slim or defer if solo capacity (R-P1) tightens.
+
 Goal:
 
 Add weather that changes rules.
@@ -89,6 +97,8 @@ Success question:
 
 ## Later — Prototype v0.5
 
+Commercial priority: **Medium–high** — trader adds a light economy loop where a future non-predatory meta/monetization can later hang. Keep light, guard against RPG creep.
+
 Goal:
 
 Add lightweight NPCs.
@@ -105,6 +115,8 @@ Success question:
 > Do NPCs create decisions without turning the game into an RPG?
 
 ## Later — Prototype v0.6
+
+Commercial priority: **Critical** — the real commercial gate. Difficulty curve plus "want one more day after several sessions" is where retention proves out or fails. Protect capacity for this milestone.
 
 Goal:
 
