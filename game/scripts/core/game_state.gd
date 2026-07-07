@@ -13,6 +13,11 @@ const MAX_GATE_HP: int = 100
 const REPAIR_AMOUNT: int = 20
 const REPAIR_WOOD_COST: int = 1
 
+# Numberless gate condition thresholds (GDD §9): the gate is read in three
+# visual states, never as a number.
+const GATE_DAMAGED_BELOW: int = 67
+const GATE_FAILING_BELOW: int = 34
+
 const STARTING_FOOD: int = 1
 const STARTING_WOOD: int = 3
 const STARTING_AMMO: int = 8
@@ -69,17 +74,47 @@ func reset() -> void:
 	is_prototype_complete = false
 
 
-func run_forest_expedition() -> void:
+## One of: "intact", "damaged", "near_broken", "breached".
+func gate_state() -> String:
+	if gate_hp <= 0:
+		return "breached"
+	if gate_hp < GATE_FAILING_BELOW:
+		return "near_broken"
+	if gate_hp < GATE_DAMAGED_BELOW:
+		return "damaged"
+	return "intact"
+
+
+## Rolls the day's forest yield (GDD §11). The totals match the old bulk
+## scavenge exactly - the tuned economy is unchanged - but resources are
+## granted one pickup at a time via grant_loot() as the player gathers them,
+## so last_loot_* always records what was actually GAINED, not what was
+## rolled (the morning report contract, core loop step 6).
+func roll_forest_loot() -> Dictionary:
 	var loot: Dictionary = FOREST_LOOT_OPTIONS[randi() % FOREST_LOOT_OPTIONS.size()]
 
 	last_expedition_location = "Forest"
-	last_loot_food = loot["food"]
-	last_loot_wood = loot["wood"]
-	last_loot_ammo = loot["ammo"]
+	last_loot_food = 0
+	last_loot_wood = 0
+	last_loot_ammo = 0
 
-	food += last_loot_food
-	wood += last_loot_wood
-	ammo += last_loot_ammo
+	return loot
+
+
+## Grants one gathered resource and keeps the expedition bookkeeping in sync.
+func grant_loot(kind: String, amount: int = 1) -> void:
+	match kind:
+		"food":
+			food += amount
+			last_loot_food += amount
+		"wood":
+			wood += amount
+			last_loot_wood += amount
+		"ammo":
+			ammo += amount
+			last_loot_ammo += amount
+		_:
+			push_warning("Unknown loot kind: %s" % kind)
 
 
 func repair_gate() -> void:

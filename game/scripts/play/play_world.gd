@@ -24,15 +24,24 @@ const REPAIR_CHANNEL_FED: float = 1.5
 const REPAIR_CHANNEL_STARVING: float = 2.5
 const REPAIR_RANGE: float = 240.0
 
+# Walkable forest expedition (GDD §6/§11): a separate area east of camp.
+# Geometry (origin, extents, spots, entry) is owned by the ForestArea node -
+# nothing here duplicates its placement.
+const PICKUP_SCENE: PackedScene = preload("res://scenes/play/forest_pickup.tscn")
+const CAMP_RETURN_POSITION: Vector2 = Vector2(360, 900)
+
 @onready var player: CharacterBody2D = $Player
+@onready var camera: Camera2D = $Player/Camera2D
 @onready var gate: StaticBody2D = $Gate
+@onready var forest_area: Node2D = $ForestArea
 @onready var zombie_spawn: Marker2D = $ZombieSpawn
 @onready var night_overlay: ColorRect = $CanvasLayer/NightOverlay
 @onready var joystick: Control = $CanvasLayer/HUD/VirtualJoystick
 @onready var aim_catcher: Control = $CanvasLayer/HUD/AimCatcher
 @onready var repair_button: Button = $CanvasLayer/HUD/RepairButton
 @onready var repair_progress: ColorRect = $CanvasLayer/HUD/RepairProgress
-@onready var scavenge_button: Button = $CanvasLayer/HUD/ScavengeButton
+@onready var forest_button: Button = $CanvasLayer/HUD/ForestButton
+@onready var return_button: Button = $CanvasLayer/HUD/ReturnButton
 @onready var start_night_button: Button = $CanvasLayer/HUD/StartNightButton
 @onready var restart_button: Button = $CanvasLayer/HUD/RestartButton
 @onready var message_label: Label = $CanvasLayer/HUD/MessageLabel
@@ -40,20 +49,39 @@ const REPAIR_RANGE: float = 240.0
 @onready var ammo_label: Label = $CanvasLayer/HUD/AmmoLabel
 @onready var food_label: Label = $CanvasLayer/HUD/FoodLabel
 @onready var wood_label: Label = $CanvasLayer/HUD/WoodLabel
-@onready var gate_bar_fill: ColorRect = $CanvasLayer/HUD/GateBarFill
 @onready var gate_label: Label = $CanvasLayer/HUD/GateLabel
 @onready var shot_sfx: AudioStreamPlayer = $ShotSfx
 @onready var hit_sfx: AudioStreamPlayer = $HitSfx
 @onready var repair_sfx: AudioStreamPlayer = $RepairSfx
 @onready var gate_hit_sfx: AudioStreamPlayer = $GateHitSfx
 
-const GATE_BAR_FULL_WIDTH: float = 330.0
+# Numberless gate readout (GDD §9/§18): state text + color, no HP figures.
+const GATE_STATE_TEXT: Dictionary = {
+	"intact": "Gate: Holding",
+	"damaged": "Gate: Damaged",
+	"near_broken": "Gate: FAILING",
+	"breached": "Gate: BREACHED",
+}
+const GATE_STATE_COLOR: Dictionary = {
+	"intact": Color(0.72, 0.78, 0.68),
+	"damaged": Color(0.85, 0.64, 0.38),
+	"near_broken": Color(0.9, 0.38, 0.3),
+	"breached": Color(0.95, 0.25, 0.2),
+}
 
 var is_night: bool = false
 var run_over: bool = false
 var breached: bool = false
 var scavenged_today: bool = false
 var starving: bool = false
+var in_forest: bool = false
+
+var _pickups_left: int = 0
+var _last_gate_state: String = ""
+# Camp camera limits as authored on the Camera2D in the scene; captured in
+# _ready so the scene stays the single source of truth.
+var _camp_limit_left: int = 0
+var _camp_limit_right: int = 720
 
 var night_time: float = 0.0
 var _night_elapsed: float = 0.0
@@ -70,14 +98,17 @@ func _ready() -> void:
 	aim_catcher.gui_input.connect(_on_aim_input)
 	repair_button.button_down.connect(_on_repair_hold_started)
 	repair_button.button_up.connect(_on_repair_hold_released)
-	scavenge_button.pressed.connect(_on_scavenge_pressed)
+	forest_button.pressed.connect(_on_forest_pressed)
+	return_button.pressed.connect(_on_return_pressed)
 	start_night_button.pressed.connect(_on_start_night_pressed)
 	restart_button.pressed.connect(_on_restart_pressed)
 
 	restart_button.visible = false
 	night_overlay.visible = false
 	repair_progress.visible = false
-	message_label.text = "Day 1. Scavenge, repair, and hold the gate for 3 nights. Tap zombies to shoot."
+	_camp_limit_left = camera.limit_left
+	_camp_limit_right = camera.limit_right
+	message_label.text = "Day 1. Gather in the forest, repair, and hold the gate for 3 nights. Tap zombies to shoot."
 	_refresh_hud()
 
 
@@ -116,17 +147,23 @@ func _refresh_hud() -> void:
 	else:
 		food_label.text = "Food: %d" % GameState.food
 
-	var ratio: float = float(GameState.gate_hp) / float(GameState.MAX_GATE_HP)
-	gate_bar_fill.size.x = GATE_BAR_FULL_WIDTH * ratio
-	gate_bar_fill.color = Color(0.85, 0.25, 0.2).lerp(Color(0.35, 0.7, 0.3), ratio)
-	gate_label.text = "Gate %d / %d" % [GameState.gate_hp, GameState.MAX_GATE_HP]
+	# Theme overrides re-shape the label; only touch it on a state flip.
+	var gate_state: String = GameState.gate_state()
+	if gate_state != _last_gate_state:
+		_last_gate_state = gate_state
+		gate_label.text = GATE_STATE_TEXT[gate_state]
+		gate_label.add_theme_color_override("font_color", GATE_STATE_COLOR[gate_state])
 
-	repair_button.visible = not run_over \
+	repair_button.visible = not run_over and not in_forest \
 		and GameState.gate_hp < GameState.MAX_GATE_HP \
 		and GameState.wood >= GameState.REPAIR_WOOD_COST \
 		and _player_in_repair_range()
-	start_night_button.visible = not is_night and not run_over
-	scavenge_button.visible = not is_night and not run_over and not scavenged_today
+	start_night_button.visible = not is_night and not run_over and not in_forest
+	# The forest stays open all day: re-entry is allowed while gathered-day
+	# pickups remain, so a stray Return tap never forfeits the day's loot.
+	forest_button.visible = not is_night and not run_over and not in_forest \
+		and (not scavenged_today or _pickups_left > 0)
+	return_button.visible = in_forest and not run_over
 
 
 func _player_in_repair_range() -> bool:
@@ -198,8 +235,9 @@ func _advance_channel(delta: float) -> void:
 	repair_progress.size.x = 240.0 * (1.0 - _channel_left / _channel_duration)
 	if _channel_left <= 0.0:
 		GameState.repair_gate()
+		gate.flash_repair()
 		repair_sfx.play()
-		message_label.text = "Patched the gate. (+%d HP)" % GameState.last_repair_amount
+		message_label.text = "Patched the gate."
 		if breached and GameState.gate_hp > 0:
 			breached = false
 			gate.reset_breach()
@@ -209,18 +247,76 @@ func _advance_channel(delta: float) -> void:
 
 # --- Day actions --------------------------------------------------------
 
-func _on_scavenge_pressed() -> void:
-	if is_night or run_over or scavenged_today:
+func _on_forest_pressed() -> void:
+	if is_night or run_over or in_forest:
 		return
-	scavenged_today = true
-	GameState.run_forest_expedition()
-	message_label.text = "Scavenged the forest: +%d food, +%d wood, +%d ammo." % [
-		GameState.last_loot_food, GameState.last_loot_wood, GameState.last_loot_ammo,
-	]
+	if scavenged_today and _pickups_left <= 0:
+		return
+	in_forest = true
+	_stop_channel()
+	if not scavenged_today:
+		scavenged_today = true
+		_spawn_forest_pickups()
+	player.global_position = forest_area.position + forest_area.ENTRY_POINT
+	_set_camera_limits(int(forest_area.position.x), int(forest_area.position.x + forest_area.AREA_SIZE.x))
+	message_label.text = "The forest. Walk over supplies to gather them, then head back to camp."
+
+
+func _spawn_forest_pickups() -> void:
+	var loot: Dictionary = GameState.roll_forest_loot()
+	var kinds: Array = []
+	for kind in loot:
+		for _i in range(loot[kind]):
+			kinds.append(kind)
+
+	var spots: Array = forest_area.PICKUP_SPOTS.duplicate()
+	spots.shuffle()
+	_pickups_left = kinds.size()
+	for i in range(kinds.size()):
+		var pickup := PICKUP_SCENE.instantiate()
+		pickup.kind = kinds[i]
+		add_child(pickup)
+		# Render under the player: ground clutter, not an overlay.
+		move_child(pickup, player.get_index())
+		pickup.global_position = forest_area.position + spots[i]
+		pickup.collected.connect(_on_pickup_collected)
+
+
+func _on_pickup_collected(kind: String) -> void:
+	GameState.grant_loot(kind)
+	_pickups_left -= 1
+	if _pickups_left <= 0:
+		message_label.text = "Picked up %s. The forest is cleared - head back to camp." % kind
+	else:
+		message_label.text = "Picked up %s." % kind
+
+
+func _on_return_pressed() -> void:
+	if not in_forest or run_over:
+		return
+	in_forest = false
+	player.global_position = CAMP_RETURN_POSITION
+	_set_camera_limits(_camp_limit_left, _camp_limit_right)
+	if _pickups_left > 0:
+		message_label.text = "Back at camp. %d supplies still lie out in the forest." % _pickups_left
+	else:
+		message_label.text = "Back at camp. Repair the gate or start the night."
+
+
+func _clear_pickups() -> void:
+	_pickups_left = 0
+	for pickup in get_tree().get_nodes_in_group("pickups"):
+		pickup.queue_free()
+
+
+func _set_camera_limits(left: int, right: int) -> void:
+	camera.limit_left = left
+	camera.limit_right = right
+	camera.reset_smoothing()
 
 
 func _on_start_night_pressed() -> void:
-	if is_night or run_over:
+	if is_night or run_over or in_forest:
 		return
 	is_night = true
 	breached = false
@@ -269,6 +365,8 @@ func _dawn() -> void:
 		return
 
 	scavenged_today = false
+	# Yesterday's ungathered supplies are gone - a new day rolls fresh.
+	_clear_pickups()
 	message_label.text = "Dawn breaks - night survived! Day %d begins." % GameState.day
 
 
@@ -294,6 +392,7 @@ func _end_run(won: bool) -> void:
 		zombie.queue_free()
 	for projectile in get_tree().get_nodes_in_group("projectiles"):
 		projectile.queue_free()
+	_clear_pickups()
 
 	if won:
 		message_label.text = "YOU SURVIVED UNTIL MORNING - all %d nights! Prototype complete." % GameState.TARGET_PROTOTYPE_DAYS

@@ -29,8 +29,8 @@ Build:
 - Morning report
 - Game Over screen
 - Prototype Complete screen after Day 3
-- walkable forest expedition area (GDD §6/§11 — replaces the interim Scavenge button; ADR-004 res. 1)
-- numberless gate condition: three visual states intact/damaged/near-broken (GDD §9 — replaces the interim HP bar; ADR-004 res. 2)
+- ~~walkable forest expedition area~~ **DONE 2026-07-07** (GDD §6/§11; pickups match the tuned loot table, re-entry allowed until dawn)
+- ~~numberless gate condition: three visual states~~ **DONE 2026-07-07** (GDD §9; state label + cracks + sag, repair flash feedback)
 
 Do not build:
 
