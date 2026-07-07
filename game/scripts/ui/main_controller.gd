@@ -4,6 +4,11 @@ extends Control
 ## Rebuilds simple placeholder UI under PhaseContainer based on GameState.phase.
 
 @onready var phase_container: VBoxContainer = $RootMargin/Root/PhaseContainer
+@onready var phase_image: TextureRect = $RootMargin/Root/PhaseImage
+
+const TEX_VAHTIJA: Texture2D = preload("res://assets/sprites/characters/vahtija.png")
+const TEX_ZOMBIE: Texture2D = preload("res://assets/sprites/zombies/slow_zombie.png")
+const TEX_GATE: Texture2D = preload("res://assets/sprites/props/gate_intact.png")
 
 
 func _ready() -> void:
@@ -15,18 +20,25 @@ func render() -> void:
 
 	match GameState.phase:
 		GameState.Phase.MORNING:
+			phase_image.texture = TEX_VAHTIJA
 			_render_morning()
 		GameState.Phase.EXPEDITION_RESULT:
+			phase_image.texture = TEX_VAHTIJA
 			_render_expedition_result()
 		GameState.Phase.EVENING:
+			phase_image.texture = TEX_GATE
 			_render_evening()
 		GameState.Phase.NIGHT_RESULT:
+			phase_image.texture = TEX_ZOMBIE
 			_render_night_result()
 		GameState.Phase.MORNING_REPORT:
+			phase_image.texture = TEX_VAHTIJA
 			_render_morning_report()
 		GameState.Phase.PROTOTYPE_COMPLETE:
+			phase_image.texture = TEX_VAHTIJA
 			_render_prototype_complete()
 		GameState.Phase.GAME_OVER:
+			phase_image.texture = TEX_ZOMBIE
 			_render_game_over()
 
 

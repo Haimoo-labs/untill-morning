@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://untilmorningmain"]
+[gd_scene load_steps=6 format=3 uid="uid://untilmorningmain"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_controller.gd" id="1_main_controller"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/base_dusk.png" id="2_bg_dusk"]
+[ext_resource type="Texture2D" path="res://assets/sprites/characters/vahtija.png" id="3_vahtija"]
+[ext_resource type="Texture2D" path="res://assets/sprites/zombies/slow_zombie.png" id="4_zombie"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/gate_intact.png" id="5_gate"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -10,6 +14,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main_controller")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bg_dusk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BackgroundOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.06, 0.6)
 
 [node name="RootMargin" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -31,6 +55,14 @@ theme_override_constants/separation = 12
 layout_mode = 2
 text = "Until Morning"
 horizontal_alignment = 1
+
+[node name="PhaseImage" type="TextureRect" parent="RootMargin/Root"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 320)
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("3_vahtija")
 
 [node name="PhaseContainer" type="VBoxContainer" parent="RootMargin/Root"]
 layout_mode = 2
