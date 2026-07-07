@@ -5,7 +5,7 @@ extends Area2D
 ## that can miss. Damages the first zombie it touches, then frees itself.
 
 const SPEED: float = 420.0
-const LIFETIME: float = 1.5
+const LIFETIME: float = 3.0
 const DAMAGE: int = 1
 const TURN_RATE: float = 14.0
 

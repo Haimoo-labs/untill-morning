@@ -39,10 +39,18 @@ func take_hit(damage: int = 1) -> void:
 	if _resolved:
 		return
 	health -= damage
+	_flash_hit()
 	if health <= 0:
 		_resolved = true
 		resolved.emit("killed")
 		queue_free()
+
+
+func _flash_hit() -> void:
+	var sprite: Sprite2D = $Sprite2D
+	sprite.modulate = Color(2.0, 0.6, 0.5)
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate", Color.WHITE, 0.25)
 
 
 func _reach_gate() -> void:

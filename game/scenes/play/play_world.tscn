@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/play/play_world.gd" id="1_world"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/base_dusk.png" id="2_bg"]
@@ -15,7 +15,28 @@ height = 56.0
 size = Vector2(140, 60)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_repair"]
-radius = 110.0
+radius = 170.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(20, 1620)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(740, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_campfire"]
+radius = 58.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_survivor"]
+radius = 26.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_left"]
+size = Vector2(210, 240)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_right_upper"]
+size = Vector2(200, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tent_right_lower"]
+size = Vector2(200, 200)
 
 [node name="PlayWorld" type="Node2D"]
 script = ExtResource("1_world")
@@ -42,6 +63,44 @@ scale = Vector2(0.35, 0.35)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Gate/RepairZone"]
 shape = SubResource("CircleShape2D_repair")
 
+[node name="Obstacles" type="StaticBody2D" parent="."]
+
+[node name="WallLeft" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(-10, 800)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallRight" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(730, 800)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="WallTop" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(360, 410)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="WallBottom" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(360, 1560)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Campfire" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(363, 1160)
+shape = SubResource("CircleShape2D_campfire")
+
+[node name="Survivor" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(283, 1062)
+shape = SubResource("CircleShape2D_survivor")
+
+[node name="TentLeft" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(100, 920)
+shape = SubResource("RectangleShape2D_tent_left")
+
+[node name="TentRightUpper" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(610, 940)
+shape = SubResource("RectangleShape2D_tent_right_upper")
+
+[node name="TentRightLower" type="CollisionShape2D" parent="Obstacles"]
+position = Vector2(610, 1220)
+shape = SubResource("RectangleShape2D_tent_right_lower")
+
 [node name="ZombieSpawn" type="Marker2D" parent="."]
 position = Vector2(360, 120)
 
@@ -60,6 +119,10 @@ scale = Vector2(0.12, 0.12)
 position = Vector2(0, -20)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+limit_left = 0
+limit_top = 0
+limit_right = 720
+limit_bottom = 1600
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
