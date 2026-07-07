@@ -6,7 +6,7 @@ extends StaticBody2D
 signal player_range_changed(in_range: bool)
 
 const TEX_INTACT: Texture2D = preload("res://assets/sprites/props/gate_intact.png")
-const REPAIR_RING_RADIUS: float = 170.0
+const REPAIR_RING_RADIUS: float = 220.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var repair_zone: Area2D = $RepairZone
@@ -17,6 +17,9 @@ var player_in_range: bool = false
 func _ready() -> void:
 	add_to_group("gate")
 	set_collision_layer_value(1, true)
+	# The player body lives on collision layer 2; without this the zone's
+	# default mask (layer 1 only) never detects the player at all.
+	repair_zone.set_collision_mask_value(2, true)
 	repair_zone.body_entered.connect(_on_repair_zone_body_entered)
 	repair_zone.body_exited.connect(_on_repair_zone_body_exited)
 	sprite.texture = TEX_INTACT

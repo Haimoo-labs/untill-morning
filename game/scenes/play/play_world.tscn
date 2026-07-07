@@ -19,7 +19,7 @@ height = 56.0
 size = Vector2(140, 60)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_repair"]
-radius = 170.0
+radius = 220.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
 size = Vector2(20, 1620)
@@ -78,7 +78,7 @@ position = Vector2(730, 800)
 shape = SubResource("RectangleShape2D_wall_v")
 
 [node name="WallTop" type="CollisionShape2D" parent="Obstacles"]
-position = Vector2(360, 410)
+position = Vector2(360, 500)
 shape = SubResource("RectangleShape2D_wall_h")
 
 [node name="WallBottom" type="CollisionShape2D" parent="Obstacles"]

@@ -64,6 +64,12 @@ func _refresh_stats() -> void:
 	wood_label.text = "Wood: %d" % GameState.wood
 	ammo_label.text = "Ammo: %d" % GameState.ammo
 	gate_label.text = "Gate HP: %d / %d" % [GameState.gate_hp, GameState.MAX_GATE_HP]
+	# Driven every frame, not only from the range signal: if the player is
+	# already inside the ring when night ends (or when the gate first takes
+	# damage), no enter/exit event fires and a signal-only approach leaves
+	# the button stale-hidden.
+	repair_button.visible = gate.player_in_range and not is_night and not run_over \
+		and GameState.gate_hp < GameState.MAX_GATE_HP and GameState.wood >= GameState.REPAIR_WOOD_COST
 
 
 func _on_fire_pressed() -> void:
@@ -79,16 +85,14 @@ func _on_fire_pressed() -> void:
 			message_label.text = "No zombies in sight - save your ammo."
 
 
-func _on_gate_range_changed(in_range: bool) -> void:
-	repair_button.visible = in_range and not is_night and not run_over \
-		and GameState.gate_hp < GameState.MAX_GATE_HP
+func _on_gate_range_changed(_in_range: bool) -> void:
+	pass  # Visibility is driven per-frame in _refresh_stats().
 
 
 func _on_repair_pressed() -> void:
 	if gate.try_repair():
 		repair_sfx.play()
 		message_label.text = "Patched the gate. (-1 wood, +%d HP)" % GameState.REPAIR_AMOUNT
-	repair_button.visible = gate.player_in_range and GameState.gate_hp < GameState.MAX_GATE_HP
 
 
 func _on_scavenge_pressed() -> void:
