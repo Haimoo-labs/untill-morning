@@ -4,6 +4,7 @@ extends CharacterBody2D
 ## or deals one fixed hit to GameState.gate_hp if it reaches the gate.
 
 signal resolved(outcome: String)
+signal hit
 
 const SPEED: float = 40.0
 const MAX_HEALTH: int = 3
@@ -40,6 +41,7 @@ func take_hit(damage: int = 1) -> void:
 		return
 	health -= damage
 	_flash_hit()
+	hit.emit()
 	if health <= 0:
 		_resolved = true
 		resolved.emit("killed")

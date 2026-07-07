@@ -55,14 +55,15 @@ func set_move_direction(dir: Vector2) -> void:
 	move_direction = dir
 
 
-func fire() -> void:
+## Returns what happened so the HUD can react: "fired", "no_ammo", or "no_target".
+func fire() -> String:
 	if GameState.ammo <= 0:
-		return
+		return "no_ammo"
 
 	# Don't waste ammo firing at nothing - only shoot when there's an actual target.
 	var target := _find_nearest_zombie()
 	if target == null:
-		return
+		return "no_target"
 
 	GameState.ammo -= 1
 
@@ -71,6 +72,7 @@ func fire() -> void:
 	projectile.global_position = muzzle.global_position
 	projectile.direction = (target.global_position - global_position).normalized()
 	projectile.target = target
+	return "fired"
 
 
 func _find_nearest_zombie() -> Node2D:

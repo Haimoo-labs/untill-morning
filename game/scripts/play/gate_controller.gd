@@ -40,6 +40,13 @@ func try_repair() -> bool:
 	return true
 
 
+func _process(_delta: float) -> void:
+	# No damaged-gate art yet, so damage reads through color: the gate
+	# darkens and reddens as its HP drops.
+	var ratio: float = float(GameState.gate_hp) / float(GameState.MAX_GATE_HP)
+	sprite.modulate = Color(1.0, 0.35 + 0.65 * ratio, 0.35 + 0.65 * ratio)
+
+
 func _on_repair_zone_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true

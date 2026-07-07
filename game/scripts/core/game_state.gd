@@ -181,3 +181,11 @@ func start_next_day() -> void:
 	else:
 		day += 1
 		phase = Phase.MORNING
+
+
+## Bookkeeping for the real-time night (PlayWorld): combat outcomes (ammo,
+## gate damage) are applied live during play, so unlike start_night() this
+## only consumes the nightly food and advances the day / completion state.
+func advance_after_realtime_night() -> void:
+	food = max(0, food - 1)
+	start_next_day()

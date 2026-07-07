@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://scripts/play/play_world.gd" id="1_world"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/base_dusk.png" id="2_bg"]
@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/characters/vahtija.png" id="4_vahtija"]
 [ext_resource type="Script" path="res://scripts/play/gate_controller.gd" id="5_gate"]
 [ext_resource type="Script" path="res://scripts/play/virtual_joystick.gd" id="6_joystick"]
+[ext_resource type="AudioStream" path="res://assets/audio/shot.wav" id="7_shot"]
+[ext_resource type="AudioStream" path="res://assets/audio/hit.wav" id="8_hit"]
+[ext_resource type="AudioStream" path="res://assets/audio/repair.wav" id="9_repair"]
+[ext_resource type="AudioStream" path="res://assets/audio/gate_hit.wav" id="10_gatehit"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_player"]
 radius = 20.0
@@ -126,6 +130,21 @@ limit_bottom = 1600
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 
+[node name="ShotSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_shot")
+volume_db = -6.0
+
+[node name="HitSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_hit")
+volume_db = -4.0
+
+[node name="RepairSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_repair")
+volume_db = -4.0
+
+[node name="GateHitSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_gatehit")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="NightOverlay" type="ColorRect" parent="CanvasLayer"]
@@ -194,6 +213,22 @@ offset_right = 460.0
 offset_bottom = 114.0
 mouse_filter = 0
 text = "Repair Gate"
+
+[node name="ScavengeButton" type="Button" parent="CanvasLayer/HUD"]
+offset_left = 480.0
+offset_top = 24.0
+offset_right = 696.0
+offset_bottom = 64.0
+mouse_filter = 0
+text = "Scavenge Forest"
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/HUD"]
+offset_left = 260.0
+offset_top = 124.0
+offset_right = 460.0
+offset_bottom = 164.0
+mouse_filter = 0
+text = "Restart"
 
 [node name="VirtualJoystick" type="Control" parent="CanvasLayer/HUD"]
 anchors_preset = 12
