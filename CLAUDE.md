@@ -4,6 +4,8 @@
 
 This project is **Until Morning**, a small Android-first 2D / 2.5D zombie survival defence game.
 
+Canonical design source: `docs/game-design-document.md` + `docs/asset-production-specification.md` (ADR-004). Check GDD §6 scope and §24 agent rules before implementing anything.
+
 Core loop:
 
 1. Morning: show the base status and daily threat.

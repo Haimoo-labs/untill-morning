@@ -1,5 +1,7 @@
 # Post-Audit Plan + Ammo Economy Root Cause
 
+> **HISTORICAL (2026-07-07):** Sprint 1 and Sprint 2 are complete and re-audited; Sprint 3 (Android APK) is cancelled until the owner explicitly requests it. Canonical phasing is now `docs/game-design-document.md` §21 (ADR-004).
+
 **Date:** 2026-07-07 · **Input:** `docs/reports/team-audit-2026-07-07.md`
 **Status:** Awaiting owner approval for Sprint 1 execution and Sprint 2 kickoff.
 

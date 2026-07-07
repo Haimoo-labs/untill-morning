@@ -1,5 +1,7 @@
 # Game Design Blueprint v0.1 — Until Morning
 
+> **SUPERSEDED (2026-07-07):** the canonical design source is now `docs/game-design-document.md` (see `docs/decisions/ADR-004-gdd-canonical.md`). Kept for history; do not base new work on this file.
+
 ## One-line concept
 
 **Until Morning** is a small Android-first zombie survival defence game where every day is preparation for the next night.

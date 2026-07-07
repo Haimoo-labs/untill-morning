@@ -3,7 +3,7 @@
 **Rooli:** Miranda (tuoteomistaja)
 **Päivä:** 2026-07-07
 **Pohja:** `docs/business/STRATEGY-ASSESSMENT.md` (Athena, GO EHDOLLISESTI)
-**Tila:** Tuote- ja priorisointidokumentti. Kanoninen backlog on `docs/product/BACKLOG.md`. Tämä dokumentti tarkentaa portit ja kaupallisen suunnan, mutta ei tee monetisaatiopäätöksiä.
+**Tila:** Tuote- ja priorisointidokumentti. Kanoninen backlog on `docs/product/BACKLOG.md` ja kanoninen vaiheistus `docs/game-design-document.md` §21 (ADR-004). Tämä dokumentti on kaupallinen porttinäkymä sen päällä, eikä tee monetisaatiopäätöksiä.
 
 Vahvistettu lähtökohta: tämä on **kaupallinen tuloprojekti**, ei pelkkä portfolio. Se nostaa löydettävyyden (R1) ja monetisaatiomallin (R5) painoa, mutta ei muuta Portti 1:n päätöstä: prototyyppi viimeistellään joka tapauksessa.
 

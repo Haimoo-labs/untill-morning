@@ -1,5 +1,7 @@
 # MVP Scope — Until Morning
 
+> **SUPERSEDED (2026-07-07):** canonical v0.1 scope is now `docs/game-design-document.md` §6 (see `docs/decisions/ADR-004-gdd-canonical.md`). Kept for history; do not base new work on this file.
+
 ## Prototype v0.1
 
 The first version is not the full game. It is a playable loop test.

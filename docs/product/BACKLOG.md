@@ -8,6 +8,8 @@ It separates what should be built now from what should wait until the core loop 
 
 Commercial priority view (which v0.2–v0.6 items matter most for a revenue project, and gate criteria for Portti 1 / Portti 2): see `docs/business/PRODUCTIZATION-ROADMAP.md`. The tags below summarize that view; they do not change scope.
 
+Design source of truth: `docs/game-design-document.md` (ADR-004). Items below must stay consistent with GDD §6 (v0.1 scope) and §21 (roadmap).
+
 ## Now — Prototype v0.1
 
 Goal:
@@ -27,6 +29,8 @@ Build:
 - Morning report
 - Game Over screen
 - Prototype Complete screen after Day 3
+- walkable forest expedition area (GDD §6/§11 — replaces the interim Scavenge button; ADR-004 res. 1)
+- numberless gate condition: three visual states intact/damaged/near-broken (GDD §9 — replaces the interim HP bar; ADR-004 res. 2)
 
 Do not build:
 
