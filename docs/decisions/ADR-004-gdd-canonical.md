@@ -2,6 +2,8 @@
 
 ## Status
 
+**Superseded by ADR-005 (2026-07-07)** — the owner adopted the design pack (`docs/design-pack/`) as canon in place of the GDD this ADR made canonical. Kept for history.
+
 Accepted (owner decision, 2026-07-07)
 
 ## Decision

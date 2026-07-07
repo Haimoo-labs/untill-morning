@@ -1,5 +1,7 @@
 # Asset Production Specification — Until Morning
 
+> **SUPERSEDED (2026-07-07, ADR-005):** canonical art/asset direction is now the design pack (`docs/design-pack/02-ART-DIRECTION.md`, `07-ASSET-LIST.md`). Kept for history; do not base new work on this file.
+
 > Status: **v0.1 asset production spec** · Owner role: **Frida (art direction / visual design system / asset production lead)**
 > Companion to `docs/game-design-document.md`. Last updated: 2026-07-07
 > This document defines **how assets are produced**. It is not an integration task, contains no code, and does not put assets into the game.

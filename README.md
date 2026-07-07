@@ -54,11 +54,10 @@ Use `CLAUDE.md` as the primary instruction file for Claude Code.
 Before implementing gameplay, read:
 
 - `CLAUDE.md`
-- `docs/game-design-document.md` — **canonical design source (ADR-004)**
-- `docs/asset-production-specification.md` — canonical asset production rules
-- `docs/build-plan.md`
+- `docs/design-pack/00-INDEX.md` — **canonical design source (ADR-005)**; start here, then `05-MVP-SCOPE.md`
+- `docs/design-pack/CONCEPT-STATUS.md` — what changed on adoption and what is still unchanged
 
-Superseded (history only): `docs/game-design-blueprint.md`, `docs/mvp-scope.md`.
+Superseded (history only): `docs/game-design-document.md`, `docs/asset-production-specification.md`, `docs/game-design-blueprint.md`, `docs/mvp-scope.md`.
 
 ## Prototype v0.1 planning docs
 
@@ -82,7 +81,8 @@ Architecture decisions:
 - `docs/decisions/ADR-001-engine-choice.md`
 - `docs/decisions/ADR-002-scene-architecture.md`
 - `docs/decisions/ADR-003-state-management.md`
-- `docs/decisions/ADR-004-gdd-canonical.md`
+- `docs/decisions/ADR-004-gdd-canonical.md` — superseded by ADR-005
+- `docs/decisions/ADR-005-design-pack-canonical.md` — **current canon**
 
 ## Governance and standards
 

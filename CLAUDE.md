@@ -2,9 +2,9 @@
 
 ## Project
 
-This project is **Until Morning**, a small Android-first 2D / 2.5D zombie survival defence game.
+This project is **Until Morning**, an Android-first 2D / 2.5D zombie survival base-defence game.
 
-Canonical design source: `docs/game-design-document.md` + `docs/asset-production-specification.md` (ADR-004). Check GDD §6 scope and §24 agent rules before implementing anything.
+Canonical design source: the design pack `docs/design-pack/` (ADR-005). Read `docs/design-pack/00-INDEX.md`, and check `05-MVP-SCOPE.md` before implementing anything. The older `docs/game-design-document.md` is superseded.
 
 Core loop:
 
@@ -21,31 +21,37 @@ Core promise:
 
 ## Current target
 
-Build a small playable prototype first. Do not build the full game.
+Build the MVP, not the full game. Target: `docs/design-pack/05-MVP-SCOPE.md`.
 
-Prototype v0.1 target:
+MVP scope:
 
-- One base
-- Three resources: food, wood, ammo
-- One expedition location: forest
-- One zombie type: slow zombie
-- One base structure: gate
-- One night attack
-- One morning report
-- Survive 3 nights
+- One base with buildable defences (wall, spike trap, shooting tower)
+- Six resources: food, water, wood, metal, ammo, medicine
+- Three expedition locations: forest, hardware store, pharmacy
+- Three zombie types: basic, runner, infector
+- Three weather states: clear, rain, fog
+- Two NPCs: trader, nurse
+- Backpack: 6 slots, one upgrade to 9
+- Survive 10 days and build a radio
+
+Note: a real-time top-down v0.1 slice (survive 3 nights, single forest, numberless
+gate) is already shipped and live. It predates this MVP and diverges from it;
+reworking it toward the MVP above is a separate, planned effort.
 
 ## Hard rules
 
 Do not add open world exploration.
-Do not add complex crafting.
-Do not add monetization.
-Do not add ads.
+Do not add a massive crafting tree (buildings and simple upgrades are fine).
 Do not add online accounts.
 Do not add cloud saves.
 Do not add multiplayer.
-Do not add story cutscenes.
+Do not add long story cutscenes (story is event-based).
 Do not add procedural world generation.
-Do not add more features unless the current prototype loop is playable.
+Do not add more features unless the current loop is playable.
+
+Monetization and ads are **out of the MVP** but in scope as later-phase systems,
+designed fair and never pay-to-win (see `docs/design-pack/06-ECONOMY-MONETIZATION.md`).
+Do not wire real IAP or ads until the core loop is proven.
 
 ## Technical direction
 

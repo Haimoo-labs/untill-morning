@@ -1,5 +1,7 @@
 # Game Design Document — Until Morning
 
+> **SUPERSEDED (2026-07-07, ADR-005):** the canonical design source is now the design pack `docs/design-pack/` (owner adopted it over this GDD). Kept for history; do not base new work on this file. See `docs/decisions/ADR-005-design-pack-canonical.md`.
+
 > Status: **v0.1 working design** · Owner roles: **Ludo (game design)** + **Frida (art direction / asset production lead)**
 > Last updated: 2026-07-07
 > This document is the single source of truth for design intent and scope. Code and asset integration are handled separately (see `docs/asset-production-specification.md`). If this document and the game disagree, **this document wins until it is deliberately changed.**
