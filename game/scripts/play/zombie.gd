@@ -13,7 +13,9 @@ const CLAW_DAMAGE: int = 4
 const CLAW_INTERVAL: float = 2.0
 const GATE_STOP_OFFSET: float = 35.0
 const PLAYER_CONTACT_RADIUS: float = 40.0
-const BREACH_SPEED_MULTIPLIER: float = 1.4
+# Faster than the player's 140 - a breach can't be kited out; you either
+# shoot the pursuers down or they run you down before dawn.
+const BREACH_CHASE_SPEED: float = 160.0
 
 var speed: float = 45.0
 var gate: Node2D = null
@@ -43,7 +45,7 @@ func _physics_process(delta: float) -> void:
 			_dead = true
 			reached_player.emit()
 			return
-		velocity = to_player.normalized() * speed * BREACH_SPEED_MULTIPLIER
+		velocity = to_player.normalized() * BREACH_CHASE_SPEED
 		move_and_slide()
 		return
 

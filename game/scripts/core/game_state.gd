@@ -13,7 +13,7 @@ const MAX_GATE_HP: int = 100
 const REPAIR_AMOUNT: int = 20
 const REPAIR_WOOD_COST: int = 1
 
-const STARTING_FOOD: int = 3
+const STARTING_FOOD: int = 1
 const STARTING_WOOD: int = 3
 const STARTING_AMMO: int = 8
 

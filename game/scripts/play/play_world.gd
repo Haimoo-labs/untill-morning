@@ -105,7 +105,10 @@ func _process(delta: float) -> void:
 
 
 func _refresh_hud() -> void:
-	day_label.text = "Day %d / %d" % [GameState.day, GameState.TARGET_PROTOTYPE_DAYS]
+	if is_night:
+		day_label.text = "Night %d - dawn in %ds" % [GameState.day, ceili(maxf(night_time, 0.0))]
+	else:
+		day_label.text = "Day %d / %d" % [GameState.day, GameState.TARGET_PROTOTYPE_DAYS]
 	ammo_label.text = "Ammo: %d" % GameState.ammo
 	wood_label.text = "Wood: %d" % GameState.wood
 	if is_night:
