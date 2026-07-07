@@ -19,6 +19,7 @@ func _ready() -> void:
 	set_collision_layer_value(1, true)
 	# The player body lives on collision layer 2; without this the zone's
 	# default mask (layer 1 only) never detects the player at all.
+	repair_zone.set_collision_mask_value(1, false)
 	repair_zone.set_collision_mask_value(2, true)
 	repair_zone.body_entered.connect(_on_repair_zone_body_entered)
 	repair_zone.body_exited.connect(_on_repair_zone_body_exited)

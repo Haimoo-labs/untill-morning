@@ -7,7 +7,10 @@ signal resolved(outcome: String)
 signal hit
 
 const SPEED: float = 40.0
-const MAX_HEALTH: int = 3
+# 1 HP: one shot, one kill. Interim economy fix (audit: ammo's role changed
+# from damage-mitigation to kill-currency without retuning; supply ~7 vs the
+# 30 hits a 3-HP roster needed). Final economy comes from the night redesign.
+const MAX_HEALTH: int = 1
 const GATE_DAMAGE: int = 15
 const REACH_DISTANCE: float = 40.0
 

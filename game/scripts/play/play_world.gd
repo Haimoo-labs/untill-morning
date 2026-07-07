@@ -90,6 +90,8 @@ func _on_gate_range_changed(_in_range: bool) -> void:
 
 
 func _on_repair_pressed() -> void:
+	if is_night or run_over:
+		return
 	if gate.try_repair():
 		repair_sfx.play()
 		message_label.text = "Patched the gate. (-1 wood, +%d HP)" % GameState.REPAIR_AMOUNT
@@ -123,7 +125,9 @@ func _on_start_night_pressed() -> void:
 
 func _spawn_wave(count: int) -> void:
 	for i in range(count):
-		if not is_night:
+		# is_inside_tree(): the timer await below can resume after a scene
+		# reload (Restart) has freed this instance - bail out, don't touch state.
+		if not is_inside_tree() or not is_night:
 			return
 		var zombie := ZOMBIE_SCENE.instantiate()
 		add_child(zombie)
@@ -178,6 +182,8 @@ func _end_run(won: bool) -> void:
 	restart_button.visible = true
 	for zombie in get_tree().get_nodes_in_group("zombies"):
 		zombie.queue_free()
+	for projectile in get_tree().get_nodes_in_group("projectiles"):
+		projectile.queue_free()
 
 	if won:
 		message_label.text = "YOU SURVIVED UNTIL MORNING - all %d nights! Prototype complete." % GameState.TARGET_PROTOTYPE_DAYS
