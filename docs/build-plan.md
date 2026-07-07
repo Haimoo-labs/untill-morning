@@ -1,120 +1,59 @@
 # Build Plan — Until Morning
 
+**Status:** Active · **Last updated:** 2026-07-07
+
+## What this document is
+
+Per-phase *validation criteria*: how we know a phase is playable and can close.
+
+The canonical roadmap — phase goals, candidate features, commercial priority, and scope (what to build now, what to defer, what is banned) — lives in `docs/product/BACKLOG.md`. This document does not repeat it.
+
 ## Working principle
 
-Build the game in small, verifiable steps.
+Build the game in small, verifiable steps. Do not ask Claude Code to build the full game at once. Each phase closes only when its validation criteria pass with real evidence (see `docs/quality/DEFINITION-OF-DONE.md`).
 
-Do not ask Claude Code to build the full game at once.
+## Phase validation criteria
 
-## Phase 0 — Foundation
+### Phase 0 — Foundation
 
-Status: current repository foundation.
+Done when: README, CLAUDE.md, MVP scope, game design blueprint, Godot project skeleton, and folder structure exist.
 
-Deliverables:
+### Phase 1 — Prototype v0.1 Core Loop
 
-- README
-- CLAUDE.md
-- MVP scope
-- Game design blueprint
-- Godot project skeleton
-- Folder structure
-
-## Phase 1 — Prototype v0.1 Core Loop
-
-Goal:
-
-A player can complete three simple day/night cycles.
-
-Tasks:
-
-1. Create `GameState` autoload.
-2. Add day number, resources, gate HP, and game status.
-3. Create a simple main scene.
-4. Add Morning/Base screen.
-5. Add Forest expedition button.
-6. Resolve simple forest loot.
-7. Add Evening screen.
-8. Add gate repair action.
-9. Add Night resolution.
-10. Add Morning Report.
-11. Stop after Day 3 with Prototype Complete screen.
-
-Validation:
+Done when:
 
 - Godot project opens.
 - Day 1 starts.
-- Player can go to forest.
-- Player can repair gate.
-- Night can resolve.
-- Day advances.
-- Game can end after Day 3.
+- Player can go to the forest expedition and receive loot.
+- Player can repair the gate in the evening.
+- Night resolves.
+- Morning report appears and the day advances.
+- Game can end after Day 3 (Prototype Complete), and Game Over can appear when gate HP reaches 0.
 
-## Phase 2 — Prototype v0.2 Infection Pressure
+### Phase 2 — Prototype v0.2 Infection Pressure
 
-Only after v0.1 is playable.
+Done when: infection percentage, medicine resource, pharmacy expedition, infector zombie, and a treatment action are in the playable loop, and infection creates a meaningful choice without feeling unfair.
 
-Add:
+### Phase 3 — Prototype v0.3 Meaningful Loot Choices
 
-- Infection percentage
-- Medicine resource
-- Pharmacy expedition
-- Infector zombie
-- Simple treatment action
+Done when: the 6-slot backpack, manual loot choice, hardware store expedition, and wood/metal tradeoff are playable, and the player visibly cares what they leave behind.
 
-Do not add monetization.
+### Phase 4 — Prototype v0.4 Weather
 
-## Phase 3 — Prototype v0.3 Meaningful Loot Choices
+Done when: clear / rain / fog states exist and change expedition and night rules (not only visuals).
 
-Only after infection is playable.
+### Phase 5 — Prototype v0.5 NPC Light
 
-Add:
+Done when: trader and nurse create decisions while staying lightweight (no RPG system).
 
-- Backpack with 6 slots
-- Manual loot choice
-- Hardware store expedition
-- Wood / metal tradeoff
-- Better expedition risk meter
+### Phase 6 — 7 Night MVP
 
-## Phase 4 — Prototype v0.4 Weather
+Done when: the loop runs seven nights with a difficulty curve, readable reports, and basic balancing, and a player wants "one more day" after several sessions.
 
-Add only three weather states:
+## Non-goals
 
-- Clear
-- Rain
-- Fog
+Non-goals are defined once in the canonical sources, not here:
 
-Weather must affect gameplay, not only visuals.
-
-## Phase 5 — Prototype v0.5 NPC Light
-
-Add:
-
-- Trader
-- Nurse
-
-NPCs must stay lightweight. No complex RPG system.
-
-## Phase 6 — 7 Night MVP
-
-Expand from 3 nights to 7 nights.
-
-Add:
-
-- Difficulty curve
-- More readable reports
-- Basic balancing
-- Placeholder UI polish
-
-## Explicit non-goals before 7 Night MVP
-
-- Full 30-day campaign
-- Escape vehicle
-- Boss nights
-- Season pass
-- In-app purchases
-- Ads
-- Online accounts
-- Cloud saves
-- Leaderboards
-- Final art
-- Final audio
+- Permanent product bans: `CLAUDE.md` "Hard rules".
+- Phase-deferred items before the 7 Night MVP: `docs/product/BACKLOG.md` "Not before v0.6".
+- Money/publish items needing owner approval: `docs/product/BACKLOG.md` "Never without explicit approval".

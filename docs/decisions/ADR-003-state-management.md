@@ -105,16 +105,7 @@ It keeps gameplay state separate from UI while avoiding premature architecture.
 
 ## Guardrails
 
-Do not add these to `GameState` in v0.1:
-
-- infection
-- weather
-- NPC data
-- save data
-- ads
-- IAP
-- analytics
-- account data
+Do not add v0.1-excluded systems to `GameState`. The canonical exclusion list is `docs/mvp-scope.md` "Excluded from v0.1" (infection, weather, NPCs, save system, etc.), and the permanent bans are in `CLAUDE.md` "Hard rules" (ads, IAP, analytics, accounts, cloud saves). Keep `GameState` to the v0.1 run state only.
 
 ## Follow-up
 

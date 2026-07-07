@@ -48,13 +48,8 @@ Do not add more features unless the current prototype loop is playable.
 ## Technical direction
 
 Use Godot 4 and GDScript.
-
-Prefer simple, readable scripts over clever architecture.
 Use placeholder art.
-Use simple UI.
-Keep scenes small.
 Keep game state explicit.
-Avoid overengineering.
 
 ## Validation
 
@@ -68,9 +63,6 @@ After each implementation task:
 
 ## Coding style
 
-Use clear names.
-Keep scripts short.
-Prefer composition over deep inheritance.
 Avoid global state except for a clearly named `GameState` autoload.
 Use typed GDScript where practical.
 

@@ -129,7 +129,7 @@ Expected action:
 
 ## Incident report requirement
 
-Use `docs/templates/INCIDENT-REPORT.md` for SEV-3 or higher.
+Use `docs/governance/deferred/INCIDENT-REPORT.md` for SEV-3 or higher.
 
 SEV-4 can be handled in a normal change report.
 

@@ -167,7 +167,7 @@ After implementation:
 ## Task 005 — v0.1 Completion Report
 
 ```text
-Read CLAUDE.md, docs/prototype-v0.1/TEST-PLAN.md, docs/governance/VERSIONING.md, and docs/templates/CHANGE-REPORT.md.
+Read CLAUDE.md, docs/prototype-v0.1/TEST-PLAN.md, docs/governance/GOVERNANCE-LIGHT.md, and docs/templates/CHANGE-REPORT.md.
 
 Goal:
 Produce a v0.1 completion report after the prototype loop is implemented and tested.

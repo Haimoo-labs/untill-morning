@@ -83,22 +83,19 @@ Architecture decisions:
 
 ## Governance and standards
 
-This repository uses a lightweight governance model for documentation, versioning, change control, and incident management.
+This repository uses a lightweight governance model covering risk classes, scope protection, versioning, the Claude Code task format, and validation.
 
 Read:
 
-- `docs/governance/GOVERNANCE.md`
-- `docs/governance/DOCUMENTATION-STANDARD.md`
-- `docs/governance/VERSIONING.md`
-- `docs/governance/CHANGE-CONTROL.md`
-- `docs/governance/INCIDENT-MANAGEMENT.md`
+- `docs/governance/GOVERNANCE-LIGHT.md`
+- `docs/quality/DEFINITION-OF-DONE.md`
 
 Reusable templates:
 
 - `docs/templates/CHANGE-REPORT.md`
-- `docs/templates/INCIDENT-REPORT.md`
-- `docs/templates/RELEASE-NOTES.md`
 - `docs/templates/ADR-TEMPLATE.md`
+
+Incident management and release-notes governance is deferred until Android testing — see `docs/governance/deferred/`.
 
 ## Repository status
 

@@ -136,19 +136,17 @@ Success question:
 
 ## Not before v0.6
 
-Do not build these before the 7 Night MVP:
+Phase-specific deferrals — do not build these before the 7 Night MVP:
 
 - full 30-day campaign
 - escape vehicle
 - boss nights
 - season pass
-- IAP
-- ads
-- online accounts
-- cloud saves
 - leaderboards
 - final art
 - final audio
+
+Permanent product bans (open world, monetization, ads, accounts, cloud saves, multiplayer, etc.) are in `CLAUDE.md` "Hard rules". Money/publish items that need explicit approval are in "Never without explicit approval" below.
 
 ## Never without explicit approval
 

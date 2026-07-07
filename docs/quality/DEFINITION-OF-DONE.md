@@ -87,27 +87,7 @@ For Prototype v0.1, also confirm:
 
 ## Claude Code completion report
 
-Every non-trivial Claude Code task should end with:
-
-```text
-Changed files:
-- 
-
-Validation:
-- 
-
-Not verified:
-- 
-
-Known placeholders:
-- 
-
-Scope creep:
-- yes/no
-
-Follow-up:
-- 
-```
+Every non-trivial Claude Code task should end with a completion report. Use the canonical format in `docs/templates/CHANGE-REPORT.md` (summary, scope, changed files, risk class, validation, known issues, follow-up).
 
 ## Not done examples
 
