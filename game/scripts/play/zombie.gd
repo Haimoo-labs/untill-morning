@@ -1,22 +1,29 @@
 extends CharacterBody2D
 
-## Slow zombie: walks straight toward the gate. Dies after a few hits,
-## or deals one fixed hit to GameState.gate_hp if it reaches the gate.
+## Slow zombie (night-redesign spec §5): walks straight down to the gate,
+## then persists and claws it on an interval until killed or dawn. On a
+## breach it retargets the player; contact ends the run.
 
-signal resolved(outcome: String)
-signal hit
+signal killed
+signal clawed
+signal reached_player
 
-const SPEED: float = 40.0
-# 1 HP: one shot, one kill. Interim economy fix (audit: ammo's role changed
-# from damage-mitigation to kill-currency without retuning; supply ~7 vs the
-# 30 hits a 3-HP roster needed). Final economy comes from the night redesign.
 const MAX_HEALTH: int = 1
-const GATE_DAMAGE: int = 15
-const REACH_DISTANCE: float = 40.0
+const CLAW_DAMAGE: int = 4
+const CLAW_INTERVAL: float = 2.0
+const GATE_STOP_OFFSET: float = 35.0
+const PLAYER_CONTACT_RADIUS: float = 40.0
+const BREACH_SPEED_MULTIPLIER: float = 1.4
 
-var target: Node2D = null
+var speed: float = 45.0
+var gate: Node2D = null
+var breach_target: Node2D = null
 var health: int = MAX_HEALTH
-var _resolved: bool = false
+
+var _dead: bool = false
+var _retreating: bool = false
+var _at_gate: bool = false
+var _claw_timer: float = 0.0
 
 
 func _ready() -> void:
@@ -26,29 +33,58 @@ func _ready() -> void:
 	set_collision_mask_value(1, false)
 
 
-func _physics_process(_delta: float) -> void:
-	if _resolved or target == null:
+func _physics_process(delta: float) -> void:
+	if _dead or _retreating:
 		return
 
-	var to_target: Vector2 = target.global_position - global_position
-	if to_target.length() <= REACH_DISTANCE:
-		_reach_gate()
+	if breach_target != null:
+		var to_player: Vector2 = breach_target.global_position - global_position
+		if to_player.length() <= PLAYER_CONTACT_RADIUS:
+			_dead = true
+			reached_player.emit()
+			return
+		velocity = to_player.normalized() * speed * BREACH_SPEED_MULTIPLIER
+		move_and_slide()
 		return
 
-	velocity = to_target.normalized() * SPEED
-	move_and_slide()
+	if gate == null:
+		return
+
+	var stop_y: float = gate.global_position.y - GATE_STOP_OFFSET
+	if global_position.y < stop_y:
+		_at_gate = false
+		velocity = Vector2(0.0, speed)
+		move_and_slide()
+	else:
+		if not _at_gate:
+			_at_gate = true
+			_claw_timer = 0.0  # first claw lands on arrival
+		_claw_timer -= delta
+		if _claw_timer <= 0.0:
+			_claw_timer = CLAW_INTERVAL
+			GameState.gate_hp = max(0, GameState.gate_hp - CLAW_DAMAGE)
+			clawed.emit()
 
 
 func take_hit(damage: int = 1) -> void:
-	if _resolved:
+	if _dead or _retreating:
 		return
 	health -= damage
 	_flash_hit()
-	hit.emit()
 	if health <= 0:
-		_resolved = true
-		resolved.emit("killed")
+		_dead = true
+		killed.emit()
 		queue_free()
+
+
+## Dawn: survivors stop clawing, fade out, and free themselves.
+func retreat() -> void:
+	if _dead or _retreating:
+		return
+	_retreating = true
+	var tween := create_tween()
+	tween.tween_property($Sprite2D, "modulate:a", 0.0, 0.8)
+	tween.tween_callback(queue_free)
 
 
 func _flash_hit() -> void:
@@ -56,10 +92,3 @@ func _flash_hit() -> void:
 	sprite.modulate = Color(2.0, 0.6, 0.5)
 	var tween := create_tween()
 	tween.tween_property(sprite, "modulate", Color.WHITE, 0.25)
-
-
-func _reach_gate() -> void:
-	_resolved = true
-	GameState.gate_hp = max(0, GameState.gate_hp - GATE_DAMAGE)
-	resolved.emit("reached_gate")
-	queue_free()

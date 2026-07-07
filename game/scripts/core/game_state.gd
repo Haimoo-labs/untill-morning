@@ -15,13 +15,13 @@ const REPAIR_WOOD_COST: int = 1
 
 const STARTING_FOOD: int = 3
 const STARTING_WOOD: int = 3
-const STARTING_AMMO: int = 4
+const STARTING_AMMO: int = 8
 
 const FOREST_LOOT_OPTIONS: Array[Dictionary] = [
-	{"food": 2, "wood": 1, "ammo": 0},
-	{"food": 0, "wood": 2, "ammo": 1},
-	{"food": 1, "wood": 0, "ammo": 2},
-	{"food": 1, "wood": 1, "ammo": 1},
+	{"food": 2, "wood": 1, "ammo": 2},
+	{"food": 0, "wood": 2, "ammo": 2},
+	{"food": 1, "wood": 0, "ammo": 3},
+	{"food": 1, "wood": 1, "ammo": 3},
 ]
 
 # Core fields
@@ -95,10 +95,9 @@ func repair_gate() -> void:
 		last_repair_amount = repair_amount
 
 
-## Nightly bookkeeping after a survived real-time night: consume food and
-## advance the day, flipping to prototype-complete after the final night.
+## Day bookkeeping after a survived real-time night. Food is consumed at
+## nightfall by PlayWorld (fed/starving branch), not here.
 func advance_after_realtime_night() -> void:
-	food = max(0, food - 1)
 	if day >= TARGET_PROTOTYPE_DAYS:
 		is_prototype_complete = true
 	else:
