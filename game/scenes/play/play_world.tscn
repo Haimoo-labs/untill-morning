@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/play/play_world.gd" id="1_world"]
 [ext_resource type="Texture2D" path="res://assets/backgrounds/base_dusk.png" id="2_bg"]
 [ext_resource type="Script" path="res://scripts/play/player_controller.gd" id="3_player"]
 [ext_resource type="Texture2D" path="res://assets/sprites/characters/vahtija.png" id="4_vahtija"]
 [ext_resource type="Script" path="res://scripts/play/gate_controller.gd" id="5_gate"]
+[ext_resource type="Script" path="res://scripts/play/virtual_joystick.gd" id="6_joystick"]
 [ext_resource type="AudioStream" path="res://assets/audio/shot.wav" id="7_shot"]
 [ext_resource type="AudioStream" path="res://assets/audio/hit.wav" id="8_hit"]
 [ext_resource type="AudioStream" path="res://assets/audio/repair.wav" id="9_repair"]
@@ -73,7 +74,7 @@ shape = SubResource("RectangleShape2D_wall_h")
 position = Vector2(360, 120)
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(360, 720)
+position = Vector2(360, 900)
 script = ExtResource("3_player")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -86,12 +87,13 @@ scale = Vector2(0.12, 0.12)
 [node name="Muzzle" type="Marker2D" parent="Player"]
 position = Vector2(0, -24)
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(360, 600)
+[node name="Camera2D" type="Camera2D" parent="Player"]
 limit_left = 0
 limit_top = 0
 limit_right = 720
 limit_bottom = 1600
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
 
 [node name="ShotSfx" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_shot")
@@ -304,3 +306,15 @@ mouse_filter = 0
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_button")
 text = "Restart"
+
+[node name="VirtualJoystick" type="Control" parent="CanvasLayer/HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -350.0
+offset_right = 190.0
+offset_bottom = -190.0
+grow_vertical = 0
+mouse_filter = 0
+script = ExtResource("6_joystick")

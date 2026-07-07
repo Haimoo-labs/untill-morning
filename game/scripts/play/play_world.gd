@@ -22,11 +22,13 @@ const FIRE_COOLDOWN_FED: float = 0.35
 const FIRE_COOLDOWN_STARVING: float = 0.70
 const REPAIR_CHANNEL_FED: float = 1.5
 const REPAIR_CHANNEL_STARVING: float = 2.5
+const REPAIR_RANGE: float = 240.0
 
 @onready var player: CharacterBody2D = $Player
 @onready var gate: StaticBody2D = $Gate
 @onready var zombie_spawn: Marker2D = $ZombieSpawn
 @onready var night_overlay: ColorRect = $CanvasLayer/NightOverlay
+@onready var joystick: Control = $CanvasLayer/HUD/VirtualJoystick
 @onready var aim_catcher: Control = $CanvasLayer/HUD/AimCatcher
 @onready var repair_button: Button = $CanvasLayer/HUD/RepairButton
 @onready var repair_progress: ColorRect = $CanvasLayer/HUD/RepairProgress
@@ -64,6 +66,7 @@ var _channel_duration: float = REPAIR_CHANNEL_FED
 
 func _ready() -> void:
 	player.add_to_group("player")
+	joystick.direction_changed.connect(player.set_move_direction)
 	aim_catcher.gui_input.connect(_on_aim_input)
 	repair_button.button_down.connect(_on_repair_hold_started)
 	repair_button.button_up.connect(_on_repair_hold_released)
@@ -95,7 +98,9 @@ func _process(delta: float) -> void:
 	if not breached and GameState.gate_hp <= 0:
 		_trigger_breach()
 
-	if not breached and night_time <= 0.0:
+	# Dawn saves you even mid-breach - if you can outrun the horde until
+	# morning, you live (the gate is still wreckage to rebuild).
+	if night_time <= 0.0:
 		_dawn()
 
 
@@ -115,9 +120,14 @@ func _refresh_hud() -> void:
 
 	repair_button.visible = not run_over \
 		and GameState.gate_hp < GameState.MAX_GATE_HP \
-		and GameState.wood >= GameState.REPAIR_WOOD_COST
+		and GameState.wood >= GameState.REPAIR_WOOD_COST \
+		and _player_in_repair_range()
 	start_night_button.visible = not is_night and not run_over
 	scavenge_button.visible = not is_night and not run_over and not scavenged_today
+
+
+func _player_in_repair_range() -> bool:
+	return player.global_position.distance_to(gate.global_position) <= REPAIR_RANGE
 
 
 # --- Shooting -----------------------------------------------------------
@@ -147,6 +157,9 @@ func _on_aim_input(event: InputEvent) -> void:
 func _on_repair_hold_started() -> void:
 	if run_over:
 		return
+	if not _player_in_repair_range():
+		message_label.text = "Get closer to the gate to repair!"
+		return
 	if GameState.gate_hp >= GameState.MAX_GATE_HP or GameState.wood < GameState.REPAIR_WOOD_COST:
 		return
 	_channel_duration = REPAIR_CHANNEL_STARVING if (is_night and starving) else REPAIR_CHANNEL_FED
@@ -169,6 +182,11 @@ func _stop_channel() -> void:
 func _advance_channel(delta: float) -> void:
 	if not _channel_active:
 		return
+	# Walking away interrupts the channel - repairing means standing still
+	# at the gate while the horde closes in.
+	if player.move_direction.length() > 0.1 or not _player_in_repair_range():
+		_stop_channel()
+		return
 	if run_over or GameState.gate_hp >= GameState.MAX_GATE_HP or GameState.wood < GameState.REPAIR_WOOD_COST:
 		_stop_channel()
 		return
@@ -179,6 +197,9 @@ func _advance_channel(delta: float) -> void:
 		GameState.repair_gate()
 		repair_sfx.play()
 		message_label.text = "Patched the gate. (+%d HP)" % GameState.last_repair_amount
+		if breached and GameState.gate_hp > 0:
+			breached = false
+			gate.reset_breach()
 		# Keep channelling while held, needed, and affordable.
 		_channel_left = _channel_duration
 
