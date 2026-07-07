@@ -1,12 +1,16 @@
 extends Area2D
 
-## Straight-line projectile. Damages the first zombie it touches, then frees itself.
+## Homing projectile: steers toward its target each frame so it reliably
+## connects with a slow-moving zombie instead of firing a fixed straight line
+## that can miss. Damages the first zombie it touches, then frees itself.
 
 const SPEED: float = 420.0
 const LIFETIME: float = 1.5
 const DAMAGE: int = 1
+const TURN_RATE: float = 14.0
 
 var direction: Vector2 = Vector2.RIGHT
+var target: Node2D = null
 var _age: float = 0.0
 
 
@@ -22,6 +26,11 @@ func _draw() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if is_instance_valid(target):
+		var desired: Vector2 = (target.global_position - global_position).normalized()
+		direction = direction.slerp(desired, clampf(TURN_RATE * delta, 0.0, 1.0)).normalized()
+		rotation = direction.angle()
+
 	position += direction * SPEED * delta
 	_age += delta
 	if _age >= LIFETIME:

@@ -59,17 +59,18 @@ func fire() -> void:
 	if GameState.ammo <= 0:
 		return
 
+	# Don't waste ammo firing at nothing - only shoot when there's an actual target.
 	var target := _find_nearest_zombie()
-	var direction := facing
-	if target:
-		direction = (target.global_position - global_position).normalized()
+	if target == null:
+		return
 
 	GameState.ammo -= 1
 
 	var projectile := PROJECTILE_SCENE.instantiate()
 	get_parent().add_child(projectile)
 	projectile.global_position = muzzle.global_position
-	projectile.direction = direction
+	projectile.direction = (target.global_position - global_position).normalized()
+	projectile.target = target
 
 
 func _find_nearest_zombie() -> Node2D:
